@@ -13,9 +13,5 @@ namespace WeatherFunctionApp.Models
 
         public string Status { get; set; }
         public string Message { get; set; }
-        //public string PartitionKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        //public string RowKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        //public DateTimeOffset? Timestamp { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        //public ETag ETag { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
