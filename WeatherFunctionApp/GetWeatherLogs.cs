@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Azure.Data.Tables;
+using WeatherFunctionApp.Models;
 
 namespace WeatherFunctionApp
 {
@@ -33,7 +34,7 @@ namespace WeatherFunctionApp
             var tableServiceClient = new TableServiceClient(storageConnectionString);
             var tableClient = tableServiceClient.GetTableClient("WeatherLogs");
 
-            var query = tableClient.QueryAsync<TableEntity>(e =>
+            var query = tableClient.QueryAsync<WeatherLogEntity>(e =>
                 e.Timestamp >= fromDate && e.Timestamp <= toDate);
 
             //var logs = await query.;// ToListAsync();

@@ -1,11 +1,11 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Microsoft.WindowsAzure.Storage.Table;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using WeatherFunctionApp.Models;
 
 namespace WeatherFunctionApp
 {
@@ -59,13 +59,21 @@ namespace WeatherFunctionApp
                 var tableClient = tableServiceClient.GetTableClient("WeatherLogs");
                 await tableClient.CreateIfNotExistsAsync();
 
-                var logEntity = new Azure.Data.Tables.TableEntity
+                //var logEntity = new Azure.Data.Tables.TableEntity
+                //{
+                //    PartitionKey = "WeatherLog",
+                //    RowKey = Guid.NewGuid().ToString(),
+                //    Timestamp = DateTime.UtcNow,
+                //    //{ "Status", status },
+                //    //{ "Message", message }
+                //};
+                var logEntity = new WeatherLogEntity
                 {
                     PartitionKey = "WeatherLog",
                     RowKey = Guid.NewGuid().ToString(),
                     Timestamp = DateTime.UtcNow,
-                    //{ "Status", status },
-                    //{ "Message", message }
+                    Status = status,
+                    Message = message
                 };
 
                 await tableClient.AddEntityAsync(logEntity);
