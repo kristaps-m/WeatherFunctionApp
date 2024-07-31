@@ -2,29 +2,30 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using WeatherFunctionApp.Core.Interfaces;
 using WeatherFunctionApp.Core.Models;
-using WeatherFunctionApp.Infrastructure.Services;
 
 namespace WeatherFunctionApp
 {
     public class FetchWeatherData
     {
-        private readonly string openWeatherMapApiKey = Environment.GetEnvironmentVariable("OpenWeatherMapApiKey");
-        private readonly WeatherService _weatherService;
-        private readonly BlobService _blobService;
-        private readonly TableService _tableService;
+        private readonly IWeatherService _weatherService;
+        private readonly IBlobService _blobService;
+        private readonly ITableService _tableService;
+        private readonly string _openWeatherMapApiKey;
 
-        public FetchWeatherData(WeatherService weatherService, BlobService blobService, TableService tableService)
+        public FetchWeatherData(IWeatherService weatherService, IBlobService blobService, ITableService tableService)
         {
             _weatherService = weatherService;
             _blobService = blobService;
             _tableService = tableService;
+            _openWeatherMapApiKey = Environment.GetEnvironmentVariable("OpenWeatherMapApiKey");
         }
 
         [FunctionName("FetchWeatherData")]
         public async Task Run([TimerTrigger("*/1 * * * *")]TimerInfo myTimer, ILogger log)
         {
-            string url = $"https://api.openweathermap.org/data/2.5/weather?q=London&appid={openWeatherMapApiKey}";
+            string url = $"weather?q=London&appid={_openWeatherMapApiKey}";
             string logId = Guid.NewGuid().ToString();
 
             try

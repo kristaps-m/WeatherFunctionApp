@@ -1,8 +1,9 @@
 ﻿using Azure.Storage.Blobs;
+using WeatherFunctionApp.Core.Interfaces;
 
 namespace WeatherFunctionApp.Infrastructure.Services
 {
-    public class BlobService
+    public class BlobService : IBlobService
     {
         private readonly BlobContainerClient _blobContainerClient;
         public BlobService(string storageConnectionString, string containerName)
