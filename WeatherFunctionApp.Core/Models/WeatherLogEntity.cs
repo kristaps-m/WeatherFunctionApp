@@ -1,8 +1,7 @@
 ﻿using Azure;
 using Azure.Data.Tables;
-using System;
 
-namespace WeatherFunctionApp.Models
+namespace WeatherFunctionApp.Core.Models
 {
     public class WeatherLogEntity : ITableEntity
     {
