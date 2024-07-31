@@ -22,7 +22,7 @@ namespace WeatherFunctionApp
 
         //private static readonly string storageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
 
-        [FunctionName("GetLogs")]
+        [FunctionName("GetWeatherLogs")] // GetLogs
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "logs")] HttpRequest req,
             ILogger log)

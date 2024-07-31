@@ -12,8 +12,8 @@ namespace WeatherFunctionApp
 {
     public class FetchWeatherData
     {
-        private static readonly HttpClient httpClient = new HttpClient();
-        private readonly string storageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+        //private static readonly HttpClient httpClient = new HttpClient();
+        //private readonly string storageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
         private readonly string openWeatherMapApiKey = Environment.GetEnvironmentVariable("OpenWeatherMapApiKey");
         private readonly WeatherService _weatherService;
         private readonly BlobService _blobService;
@@ -43,6 +43,7 @@ namespace WeatherFunctionApp
                 {
                     PartitionKey = "WeatherLog",
                     RowKey = logId,
+                    Timestamp = DateTime.UtcNow,
                     Status = "Success",
                     Message = content
                 });
@@ -66,6 +67,7 @@ namespace WeatherFunctionApp
                 {
                     PartitionKey = "WeatherLog",
                     RowKey = logId,
+                    Timestamp = DateTime.UtcNow,
                     Status = "Failure",
                     Message = ex.Message
                 });

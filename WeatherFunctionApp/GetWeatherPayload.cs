@@ -1,11 +1,9 @@
-using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using WeatherFunctionApp.Infrastructure.Services;
 
@@ -33,7 +31,8 @@ namespace WeatherFunctionApp
             }
 
             var content = await _blobService.GetPayloadFromBlobAsync(logId);
-            if (content != null)
+            //log.LogInformation($"--- PAYLOAD???: {content}");
+;            if (content != null)
             {
                 return new OkObjectResult(content);
             }

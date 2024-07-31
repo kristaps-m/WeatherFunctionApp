@@ -22,9 +22,9 @@ namespace WeatherFunctionApp.Infrastructure.Services
             await blobClient.UploadAsync(new BinaryData(content));
         }
 
-        public async Task<string> GetPayloadFromBlobAsync(string logId) //, string? blobName
+        public async Task<string> GetPayloadFromBlobAsync(string blobName) //, string? blobName
         {
-            var blobClient = _blobContainerClient.GetBlobClient(logId);
+            var blobClient = _blobContainerClient.GetBlobClient(blobName);
 
             if (await blobClient.ExistsAsync())
             {

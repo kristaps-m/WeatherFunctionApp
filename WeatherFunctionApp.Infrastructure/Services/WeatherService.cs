@@ -13,6 +13,7 @@
         {
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
+
             return await response.Content.ReadAsStringAsync();
         }
     }

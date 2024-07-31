@@ -5,7 +5,6 @@ using WeatherFunctionApp.Infrastructure.Services;
 
 [assembly: FunctionsStartup(typeof(WeatherFunctionApp.Startup))]
 
-
 namespace WeatherFunctionApp
 {
     public class Startup : FunctionsStartup
