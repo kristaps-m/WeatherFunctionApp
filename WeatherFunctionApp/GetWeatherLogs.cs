@@ -5,15 +5,15 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using WeatherFunctionApp.Infrastructure.Services;
+using WeatherFunctionApp.Core.Interfaces;
 
 namespace WeatherFunctionApp
 {
     public class GetWeatherLogs
     {
-        private readonly TableService _tableService;
+        private readonly ITableService _tableService;
 
-        public GetWeatherLogs(TableService tableService)
+        public GetWeatherLogs(ITableService tableService)
         {
             _tableService = tableService;
         }

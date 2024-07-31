@@ -1,9 +1,10 @@
 ﻿using Azure.Data.Tables;
+using WeatherFunctionApp.Core.Interfaces;
 using WeatherFunctionApp.Core.Models;
 
 namespace WeatherFunctionApp.Infrastructure.Services
 {
-    public class TableService
+    public class TableService : ITableService
     {
         private readonly TableClient _tableClient;
 

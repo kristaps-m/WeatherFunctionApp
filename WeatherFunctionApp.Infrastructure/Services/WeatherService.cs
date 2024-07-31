@@ -1,6 +1,8 @@
-﻿namespace WeatherFunctionApp.Infrastructure.Services
+﻿using WeatherFunctionApp.Core.Interfaces;
+
+namespace WeatherFunctionApp.Infrastructure.Services
 {
-    public class WeatherService
+    public class WeatherService : IWeatherService
     {
         private readonly HttpClient _httpClient;
 

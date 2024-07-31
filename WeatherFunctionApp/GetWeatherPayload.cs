@@ -4,15 +4,15 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using WeatherFunctionApp.Infrastructure.Services;
+using WeatherFunctionApp.Core.Interfaces;
 
 namespace WeatherFunctionApp
 {
     public class GetWeatherPayload
     {
-        private readonly BlobService _blobService;
+        private readonly IBlobService _blobService;
 
-        public GetWeatherPayload(BlobService blobService)
+        public GetWeatherPayload(IBlobService blobService)
         {
             _blobService = blobService;
         }
