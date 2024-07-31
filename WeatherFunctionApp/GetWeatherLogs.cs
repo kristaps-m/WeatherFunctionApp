@@ -6,16 +6,24 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using WeatherFunctionApp.Models;
+using WeatherFunctionApp.Core.Models;
+using WeatherFunctionApp.Infrastructure.Services;
 
 namespace WeatherFunctionApp
 {
-    public static class GetWeatherLogs
+    public class GetWeatherLogs
     {
-        private static readonly string storageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+        private readonly TableService _tableService;
 
-        [FunctionName("GetWeatherLogs")]
-        public static async Task<IActionResult> Run(
+        public GetWeatherLogs(TableService tableService)
+        {
+            _tableService = tableService;
+        }
+
+        //private static readonly string storageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+
+        [FunctionName("GetLogs")]
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "logs")] HttpRequest req,
             ILogger log)
         {
@@ -29,15 +37,16 @@ namespace WeatherFunctionApp
                 return new BadRequestObjectResult("Please provide valid 'from' and 'to' query parameters.");
             }
 
-            var tableServiceClient = new TableServiceClient(storageConnectionString);
-            var tableClient = tableServiceClient.GetTableClient("WeatherLogs");
+            //var tableServiceClient = new TableServiceClient(storageConnectionString);
+            //var tableClient = tableServiceClient.GetTableClient("WeatherLogs");
 
-            var query = tableClient.QueryAsync<WeatherLogEntity>(e =>
-                e.Timestamp >= fromDate && e.Timestamp <= toDate);
+            //var query = tableClient.QueryAsync<WeatherLogEntity>(e =>
+            //    e.Timestamp >= fromDate && e.Timestamp <= toDate);
 
             //var logs = await query.;// ToListAsync();
+            var logs = await _tableService.GetLogsAsync(fromDate, toDate);
 
-            return new OkObjectResult(query);
+            return new OkObjectResult(logs);
         }
     }
 }
