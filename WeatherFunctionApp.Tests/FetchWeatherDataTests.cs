@@ -1,14 +1,6 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Moq;
-using WeatherFunctionApp;
 using WeatherFunctionApp.Core.Interfaces;
-using WeatherFunctionApp.Infrastructure.Services;
-using Xunit;
 
 namespace WeatherFunctionApp.Tests
 {
@@ -21,10 +13,6 @@ namespace WeatherFunctionApp.Tests
 
         public FetchWeatherDataTests()
         {
-            //_mockWeatherService = new Mock<IWeatherService>(new HttpClient());
-            //_mockBlobService = new Mock<IBlobService>("UseDevelopmentStorage=true", "weatherdata");
-            //_mockTableService = new Mock<ITableService>("UseDevelopmentStorage=true", "WeatherLogs");
-            //_mockLogger = new Mock<ILogger>();
             _mockWeatherService = new Mock<IWeatherService>();
             _mockBlobService = new Mock<IBlobService>();
             _mockTableService = new Mock<ITableService>();
