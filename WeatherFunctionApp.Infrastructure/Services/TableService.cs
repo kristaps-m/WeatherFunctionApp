@@ -1,4 +1,5 @@
-﻿using Azure.Data.Tables;
+﻿using Azure;
+using Azure.Data.Tables;
 using WeatherFunctionApp.Core.Interfaces;
 using WeatherFunctionApp.Core.Models;
 
@@ -15,8 +16,16 @@ namespace WeatherFunctionApp.Infrastructure.Services
             _tableClient.CreateIfNotExists();
         }
 
-        public async Task SaveLogToTableAsync(WeatherLogEntity logEntity)
+        public async Task SaveLogToTableAsync(string partitionKey, string rowKey, DateTimeOffset timeStamp, string status, string message)
         {
+            var logEntity = new WeatherLogEntity
+            {
+                PartitionKey = partitionKey,
+                RowKey = rowKey,
+                Timestamp = timeStamp,
+                Status = status,
+                Message = message
+            };
             await _tableClient.AddEntityAsync(logEntity);
         }
 
