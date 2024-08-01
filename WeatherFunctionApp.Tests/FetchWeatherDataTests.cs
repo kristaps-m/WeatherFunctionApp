@@ -34,7 +34,14 @@ namespace WeatherFunctionApp.Tests
             // Assert
             _mockWeatherService.Verify(ws => ws.FetchWeatherDataAsync(It.IsAny<string>()), Times.Once);
             _mockBlobService.Verify(bs => bs.SavePayloadToBlobAsync(testData, It.IsAny<string>()), Times.Once);
-            _mockTableService.Verify(ts => ts.SaveLogToTableAsync(It.IsAny<WeatherFunctionApp.Core.Models.WeatherLogEntity>()), Times.Once);
+            _mockTableService.Verify(ts => ts.SaveLogToTableAsync(
+                It.Is<string>(pk => pk == "WeatherLog"),
+                It.IsAny<string>(),
+                It.IsAny<DateTimeOffset>(),
+                It.Is<string>(status => status == "Success"),
+                It.IsAny<string>()),
+                Times.Once
+                );
         }
 
         [Fact]
@@ -44,14 +51,21 @@ namespace WeatherFunctionApp.Tests
             string errorMessage = "API call failed";
             _mockWeatherService.Setup(ws => ws.FetchWeatherDataAsync(It.IsAny<string>()))
                                .ThrowsAsync(new HttpRequestException(errorMessage));
-            var function = new FetchWeatherData(_mockWeatherService.Object, _mockBlobService.Object, _mockTableService.Object);
+            var function = new FetchWeatherData(_mockWeatherService.Object, _mockBlobService.Object, _mockTableService.Object);;
 
             // Act
             await function.Run(null, _mockLogger.Object);
 
             // Assert
             _mockWeatherService.Verify(ws => ws.FetchWeatherDataAsync(It.IsAny<string>()), Times.Once);
-            _mockTableService.Verify(ts => ts.SaveLogToTableAsync(It.Is<WeatherFunctionApp.Core.Models.WeatherLogEntity>(e => e.Status == "Failure" && e.Message == errorMessage)), Times.Once);
+            _mockTableService.Verify(ts => ts.SaveLogToTableAsync(
+                It.Is<string>(pk => pk == "WeatherLog"),
+                It.IsAny<string>(),
+                It.IsAny<DateTimeOffset>(),
+                It.Is<string>(status => status == "Failure"),
+                It.Is<string>(message => message == errorMessage)),
+                Times.Once
+                );
         }
     }
 }

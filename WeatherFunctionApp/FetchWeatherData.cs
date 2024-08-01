@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using WeatherFunctionApp.Core.Interfaces;
-using WeatherFunctionApp.Core.Models;
 
 namespace WeatherFunctionApp
 {
@@ -32,26 +31,13 @@ namespace WeatherFunctionApp
             {
                 var content = await _weatherService.FetchWeatherDataAsync(url);
                 await _blobService.SavePayloadToBlobAsync(content, logId);
-                await _tableService.SaveLogToTableAsync(new WeatherLogEntity
-                {
-                    PartitionKey = "WeatherLog",
-                    RowKey = logId,
-                    Timestamp = DateTime.UtcNow,
-                    Status = "Success",
-                    Message = content
-                });
+                await _tableService.SaveLogToTableAsync("WeatherLog", logId, DateTime.UtcNow, "Success", content);
+
                 log.LogInformation($"Successfully fetched weather data at: {DateTime.Now}");
             }
             catch (Exception ex)
             {
-                await _tableService.SaveLogToTableAsync(new WeatherLogEntity
-                {
-                    PartitionKey = "WeatherLog",
-                    RowKey = logId,
-                    Timestamp = DateTime.UtcNow,
-                    Status = "Failure",
-                    Message = ex.Message
-                });
+                await _tableService.SaveLogToTableAsync("WeatherLog", logId, DateTime.UtcNow, "Failure", ex.Message);
 
                 log.LogError($"Exception occurred: {ex.Message}");
             }
